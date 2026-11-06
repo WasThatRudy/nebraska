@@ -3,6 +3,7 @@
   "add_floor_package": "Add Floor Package",
   "add_new_channel": "Add New Channel",
   "confirm_delete_channel": "Are you sure you want to delete this channel?",
+  "failed_to_delete_channel": "The channel could not be deleted. Please try again.",
   "confirm_delete_floor": "Are you sure you want to remove this floor package?",
   "cannot_be_changed": "Cannot be changed once created.",
   "channels": "Channels",

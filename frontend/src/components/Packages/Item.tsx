@@ -76,13 +76,18 @@ function Item(props: ItemProps) {
     blacklistInfo = channelsList.join(' - ');
   }
 
-  function deletePackage() {
+  async function deletePackage() {
     const confirmationText = t('packages|confirm_delete_package');
     if (window.confirm(confirmationText)) {
-      applicationsStore().deletePackage(
-        props.packageItem.application_id,
-        props.packageItem.id as string
-      );
+      try {
+        await applicationsStore().deletePackage(
+          props.packageItem.application_id,
+          props.packageItem.id as string
+        );
+      } catch (err) {
+        console.error('Failed to delete package:', err);
+        alert(t('packages|failed_to_delete_package'));
+      }
     }
   }
 

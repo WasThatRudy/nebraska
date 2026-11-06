@@ -159,14 +159,13 @@ class ApplicationsStore extends Store {
     });
   }
 
-  deleteApplication(applicationID: string) {
-    API.deleteApplication(applicationID).then(() => {
-      this.applications = _.without(
-        this.applications as _.List<any>,
-        _.findWhere(this.applications as _.Collection<any>, { id: applicationID })
-      );
-      this.emitChange();
-    });
+  async deleteApplication(applicationID: string) {
+    await API.deleteApplication(applicationID);
+    this.applications = _.without(
+      this.applications as _.List<any>,
+      _.findWhere(this.applications as _.Collection<any>, { id: applicationID })
+    );
+    this.emitChange();
   }
 
   // Groups
@@ -185,19 +184,18 @@ class ApplicationsStore extends Store {
     this.emitChange();
   }
 
-  deleteGroup(applicationID: string, groupID: string) {
-    API.deleteGroup(applicationID, groupID).then(() => {
-      const applicationToUpdate = _.findWhere(this.applications as _.Collection<any>, {
-        id: applicationID,
-      });
-      const newGroups = _.without(
-        applicationToUpdate.groups,
-        _.findWhere(applicationToUpdate.groups, { id: groupID })
-      );
-
-      applicationToUpdate.groups = [...newGroups];
-      this.emitChange();
+  async deleteGroup(applicationID: string, groupID: string) {
+    await API.deleteGroup(applicationID, groupID);
+    const applicationToUpdate = _.findWhere(this.applications as _.Collection<any>, {
+      id: applicationID,
     });
+    const newGroups = _.without(
+      applicationToUpdate.groups,
+      _.findWhere(applicationToUpdate.groups, { id: groupID })
+    );
+
+    applicationToUpdate.groups = [...newGroups];
+    this.emitChange();
   }
 
   async updateGroup(data: Group) {

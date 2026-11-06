@@ -13,15 +13,20 @@ function ConfirmationContent(props: {
 }) {
   const { t } = useTranslation();
 
-  function processClick() {
-    if (props.data.type === 'application') {
-      applicationsStore().deleteApplication(props.data.appID);
-    } else if (props.data.type === 'group' && props.data.groupID !== undefined) {
-      applicationsStore().deleteGroup(props.data.appID, props.data.groupID);
-    } else if (props.data.type === 'channel' && props.data.channelID !== undefined) {
-      applicationsStore().deleteChannel(props.data.appID, props.data.channelID);
-    } else if (props.data.type === 'package' && props.data.packageID !== undefined) {
-      applicationsStore().deletePackage(props.data.appID, props.data.packageID);
+  async function processClick() {
+    try {
+      if (props.data.type === 'application') {
+        await applicationsStore().deleteApplication(props.data.appID);
+      } else if (props.data.type === 'group' && props.data.groupID !== undefined) {
+        await applicationsStore().deleteGroup(props.data.appID, props.data.groupID);
+      } else if (props.data.type === 'channel' && props.data.channelID !== undefined) {
+        await applicationsStore().deleteChannel(props.data.appID, props.data.channelID);
+      } else if (props.data.type === 'package' && props.data.packageID !== undefined) {
+        await applicationsStore().deletePackage(props.data.appID, props.data.packageID);
+      }
+    } catch (err) {
+      console.error('Failed to delete:', err);
+      alert(t('common|generic_error'));
     }
   }
 

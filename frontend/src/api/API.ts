@@ -356,7 +356,12 @@ export default class API {
         method,
         headers,
       };
-      return fetch(url, fetchConfigObject);
+      return fetch(url, fetchConfigObject).then(response => {
+        if (!response.ok) {
+          throw response;
+        }
+        return response;
+      });
     } else {
       if (method !== 'GET') {
         fetchConfigObject = {

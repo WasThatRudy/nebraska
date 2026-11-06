@@ -31,10 +31,15 @@ export default function ChannelItem(props: ChannelItemProps) {
     ? cleanSemverVersion(channel.package.version)
     : t('channels|no_package');
 
-  function deleteChannel() {
+  async function deleteChannel() {
     const confirmationText = t('channels|confirm_delete_channel');
     if (window.confirm(confirmationText)) {
-      applicationsStore().deleteChannel(channel.application_id, channel.id);
+      try {
+        await applicationsStore().deleteChannel(channel.application_id, channel.id);
+      } catch (err) {
+        console.error('Failed to delete channel:', err);
+        alert(t('channels|failed_to_delete_channel'));
+      }
     }
   }
 

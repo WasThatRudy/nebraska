@@ -39,10 +39,15 @@ function GroupItem({ group, handleUpdateGroup }: GroupItemProps) {
   const [totalInstances, setTotalInstances] = React.useState<null | number>(null);
   const versionBreakdown = useGroupVersionBreakdown(group);
 
-  function deleteGroup(appID: string, groupID: string) {
+  async function deleteGroup(appID: string, groupID: string) {
     const confirmationText = t('groups|group_delete_confirmation');
     if (window.confirm(confirmationText)) {
-      applicationsStore().deleteGroup(appID, groupID);
+      try {
+        await applicationsStore().deleteGroup(appID, groupID);
+      } catch (err) {
+        console.error('Failed to delete group:', err);
+        alert(t('groups|failed_to_delete_group'));
+      }
     }
   }
 

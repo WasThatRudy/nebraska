@@ -3,6 +3,7 @@
   "add_package": "Add Package",
   "architecture": "Architecture",
   "confirm_delete_package": "Are you sure you want to delete this package?",
+  "failed_to_delete_package": "The package could not be deleted. Please try again.",
   "immutable_warning": "Cannot be changed once created.",
   "channels": "Channels",
   "channel_currently_pointing_here": "Currently pointing to this package",

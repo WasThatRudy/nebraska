@@ -41,6 +41,17 @@ export default function ApplicationItem(props: ApplicationItemProps) {
   const { t } = useTranslation();
   const { description, groups, numberOfInstances, id, productId, name } = props;
 
+  async function deleteApplication() {
+    if (window.confirm(t('applications|confirm_delete_application'))) {
+      try {
+        await applicationsStore().deleteApplication(id);
+      } catch (err) {
+        console.error('Failed to delete application:', err);
+        alert(t('applications|failed_to_delete_application'));
+      }
+    }
+  }
+
   return (
     <StyledListItem className={classes.root}>
       <Grid container sx={{ width: '100%' }}>
@@ -60,11 +71,7 @@ export default function ApplicationItem(props: ApplicationItemProps) {
                 },
                 {
                   label: t('frequent|delete'),
-                  action: () => {
-                    if (window.confirm(t('applications|confirm_delete_application'))) {
-                      applicationsStore().deleteApplication(id);
-                    }
-                  },
+                  action: deleteApplication,
                 },
               ]}
             />
